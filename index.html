@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Voz Joven - Plataforma de Participación</title>
+   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+   <style>
+       body {
+           font-family: 'Comfortaa', cursive;
+           margin: 20px;
+           background-color: #f4f4f4;
+       }
+       .container {
+           background-color: #fff;
+           padding: 20px;
+           border-radius: 8px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+       }
+       h1, h2 {
+           color: #333;
+       }
+       .button {
+           display: inline-block;
+           padding: 10px 20px;
+           margin: 10px 0;
+           background-color: #007bff;
+           color: #fff;
+           text-align: center;
+           border-radius: 5px;
+           cursor: pointer;
+           transition: background-color 0.3s;
+       }
+       .button:hover {
+           background-color: #0056b3;
+       }
+       .question {
+           margin-bottom: 15px;
+       }
+       .error {
+           color: red;
+           margin-top: 10px;
+       }
+       .success {
+           color: green;
+           margin-top: 10px;
+           display: flex;
+           align-items: center;
+       }
+       .success img {
+           margin-left: 10px;
+       }
+       .logo {
+           text-align: center;
+           margin-bottom: 20px;
+       }
+       .logo img {
+           max-width: 150px;
+       }
+   </style>
+</head>
+<body>
+   <div class="container" id="mainPage">
+       <div class="logo">
+           <img src="logo.png" alt="Logo Voz Joven">
+       </div>
+       <h1>Bienvenidos a Voz Joven</h1>
+       <p>Voz Joven es una plataforma diseñada para fomentar la participación activa de niños, niñas y adolescentes en su comunidad escolar, familiar y local, promoviendo el desarrollo de habilidades cívicas y sociales.</p>
+       <button class="button" onclick="mostrarEncuesta()">Participar en Encuesta</button>
+   </div>
+
+   <div class="container" id="agePage" style="display:none;">
+       <h2>Por favor, ingresa tu edad</h2>
+       <input type="number" id="edad" min="10" max="18" placeholder="Edad"><br>
+       <button class="button" onclick="verificarEdad()">Continuar</button>
+       <p id="errorEdad" class="error" style="display:none;">Por favor, ingresa una edad válida entre 10 y 18 años.</p>
+   </div>
+
+   <div class="container" id="surveyPage" style="display:none;">
+       <h2>Encuesta de Participación Ciudadana</h2>
+       <form id="encuestaForm">
+           <div class="question">
+               <label for="q1">1. ¿Qué tan importante consideras la participación ciudadana en tu comunidad?</label><br>
+               <input type="radio" name="q1" value="Muy importante"> Muy importante<br>
+               <input type="radio" name="q1" value="Importante"> Importante<br>
+               <input type="radio" name="q1" value="Poco importante"> Poco importante<br>
+               <input type="radio" name="q1" value="Nada importante"> Nada importante<br>
+           </div>
+           <div class="question">
+               <label for="q2">2. ¿Qué actividades comunitarias te gustaría ver más en tu vecindario?</label><br>
+               <input type="text" name="q2" id="q2"><br>
+           </div>
+           <div class="question">
+               <label for="q3">3. ¿Cómo crees que la tecnología puede mejorar la participación ciudadana?</label><br>
+               <input type="text" name="q3" id="q3"><br>
+           </div>
+           <div class="question">
+               <label for="q4">4. ¿Participas en actividades de voluntariado? Si es así, ¿cuáles?</label><br>
+               <input type="text" name="q4" id="q4"><br>
+           </div>
+           <div class="question">
+               <label for="q5">5. ¿Qué temas te gustaría discutir en foros comunitarios?</label><br>
+               <input type="text" name="q5" id="q5"><br>
+           </div>
+           <div class="question">
+               <label for="q6">6. ¿Qué recursos educativos sobre participación ciudadana te gustaría tener disponibles?</label><br>
+               <input type="text" name="q6" id="q6"><br>
+           </div>
+           <div class="question">
+               <label for="q7">7. ¿Cómo te gustaría que se reconociera tu participación en la comunidad?</label><br>
+               <input type="text" name="q7" id="q7"><br>
+           </div>
+           <div class="question">
+               <label for="q8">8. ¿Qué barreras enfrentas para participar más activamente en tu comunidad?</label><br>
+               <input type="text" name="q8" id="q8"><br>
+           </div>
+           <div class="question">
+               <label for="q9">9. ¿Qué tipo de proyectos comunitarios te gustaría liderar o apoyar?</label><br>
+               <input type="text" name="q9" id="q9"><br>
+           </div>
+           <div class="question">
+               <label for="q10">10. ¿Qué sugerencias tienes para mejorar la participación ciudadana entre los jóvenes?</label><br>
+               <input type="text" name="q10" id="q10"><br>
+           </div>
+           <button type="button" class="button" onclick="enviarEncuesta()">Enviar Encuesta</button>
+       </form>
+       <p id="successMessage" class="success" style="display:none;">
+           ¡Gracias por participar en la encuesta! Tus respuestas han sido enviadas a las instituciones gubernamentales correspondientes y tu voto será tomado en cuenta.
+           <img src="https://via.placeholder.com/20x20.png?text=✓" alt="Palomita">
+       </p>
+   </div>
+
+   <script>
+       function mostrarEncuesta() {
+           document.getElementById('mainPage').style.display = 'none';
+           document.getElementById('agePage').style.display = 'block';
+       }
+
+       function verificarEdad() {
+           var edad = document.getElementById('edad').value;
+           if (edad >= 10 && edad <= 18) {
+               document.getElementById('agePage').style.display = 'none';
+               document.getElementById('surveyPage').style.display = 'block';
+           } else {
+               document.getElementById('errorEdad').style.display = 'block';
+           }
+       }
+
+       function enviarEncuesta() {
+           alert('¡Gracias por participar en la encuesta! Tus respuestas han sido enviadas.');
+           document.getElementById('encuestaForm').reset();
+           document.getElementById('successMessage').style.display = 'block';
+       }
+   </script>
